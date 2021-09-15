@@ -14,60 +14,40 @@ highScores = JSON.parse(localStorage.getItem("highscores")) || [];
 
 var quizQuestions = [
     {
-        question: "1. How do you create a function in JavaScript?",
-        answers: [
-            { Text: "A. function = myFunction()", correct: false },
-            { text: "B. function myFunction()", correct: true },
-            { text: "C. function:myFunction()", correct: false },
-            { text: "D. function, myFunction()", correct: false }
-        ]
-
+        title:  "1. How do you create a function in JavaScript?",
+        choices: ["A. function = myFunction()", "B. function myFunction()", "C. function:myFunction()", "D. function, myFunction()"],
+        answer: "B. function myFunction()"
     },
-    {
-        question: "Which is the correct way to write an IF statement in JavaScript?",
-        answers: [
-            { text: "if (i == 5)", correct: true },
-            { text: "if i == 5 then", correct: false },
-            { text: "if i = 5 then", correct: false },
-            { text: "if i - 5 then", correct: false }
-        ]
 
+    {
+        title:  "2. Which is the correct way to write an IF statement in JavaScript?",
+        choices: ["A. if (i == 5)",  "B. if i == 5 then", "C. if i = 5 then", "if i - 5 then"],
+        answer: "A. if (i == 5)"
     },
+
     {
-        question: "How do you add a comment in a JavaScript?",
-        answers: [
-            { text: "<!-- This is a comment-->", correct: false },
-            { text: "//This is a comment", correct: true },
-            { text: "'This is a comment'", correct: false },
-            { text: "**This is a comment**", correct: false }
-        ]
-
-    }, {
-        question: "What is the correct way to write a JavaScript array?",
-        answers: [
-            { text: "var colors = (1:'red', 2:'green', 3:'blue'),", correct: false },
-            { text: "var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue)", correct: false },
-            { text: "var colors = 'red, 'green, 'blue'", correct: false },
-            { text: "var colors ['red', 'blue', 'green']", correct: true }
-        ]
-
+        title:  "3. How do you add a comment in a JavaScript?",
+        choices: [ "A. <!-- This is a comment-->", "B. //This is a comment",  "C. 'This is a comment'", "D. **This is a comment**"],
+        answer: "B. //This is a comment"
+    }, 
+    
+    {
+        title:  "4. What is the correct way to write a JavaScript array?",
+        choices: ["A. var colors = (1:'red', 2:'green', 3:'blue'),", "B. var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue)", "C. var colors = 'red, 'green, 'blue'", "D. var = colors ['red', 'blue', 'green']"],
+        answer: "D. var = colors ['red', 'blue', 'green']"
     },
-    {
-        question: "How do you declare a JavaScript variable?",
-        answers: [
-            { text: "v personName;", correct: false },
-            { text: "var personName;", correct: true },
-            { text: "variable personName;", correct: false }
-        ]
 
-    }, {
-        question: "Which operator is used to assign a value to a variable?",
-        answers: [
-            { text: "*", correct: false },
-            { text: "-", correct: false },
-            { text: "X", correct: false },
-            { text: "=", correct: true }
-        ]
+    {
+        title:  "5. How do you declare a JavaScript variable?",
+        choices: ["A. v personName;", "B. var personName;",  "C. variable personName;"],
+        answer: "B. var personName;"
+
+    }, 
+    
+    {
+        title:  "6. Which operator is used to assign a value to a variable?",
+        choices: [ "A. *", "B. -", "C. X", "D. ="],
+        answer: "D. ="
 
     },
 
@@ -84,7 +64,8 @@ let finalScore;
 
 startButton.addEventListener("click", startQuiz);
 
-function startQuiz() {
+function startQuiz(event) {
+    event.preventDefault()
 
     startButton.classList.add("hide");
     quizHeading.classList.add("hide");
@@ -93,15 +74,15 @@ function startQuiz() {
     quizContainer.classList.remove("hide");
     score.innerHTML = "";
     const question = quizQuestions[questionNumber];
-    const choices = question.answers;
+    const choices = question.choices;
     answerContainer.textContent = "";
 
     for (let index = 0; index < choices.length; index++) {
         const choice = choices[index];
 
         const button = document.createElement('button');
-        button.textContent = choice.text;
-        button.setAttribute('data-isAnswer', choice.correct);
+        button.textContent = choices;
+        button.setAttribute('data-isAnswer', choices.answer);
         button.addEventListener('click', checkAnswer)
         answerContainer.append(button);
     }
@@ -140,7 +121,7 @@ function checkAnswer(clickedAnswer) {
 function nextQuestion() {
     question = quizQuestions[questionNumber];
     
-    // 
+    
 
 
 }
