@@ -16,7 +16,7 @@ var quizQuestions = [
     {
         title:  "1. How do you create a function in JavaScript?",
         choices: ["A. function = myFunction()", "B. function myFunction()", "C. function:myFunction()", "D. function, myFunction()"],
-        answer: "B. function myFunction()"
+        answer: 1
     },
 
     {
@@ -58,19 +58,20 @@ let wrongText = document.getElementById("wrongText");
 let score = 0;
 let userInitals = "";
 let questionNumber = 0;
+let currentQuestion;
 let finalScore;
 
 
 
 startButton.addEventListener("click", startQuiz);
 
-function startQuiz(event) {
-    event.preventDefault()
+function startQuiz() {
 
     startButton.classList.add("hide");
     quizHeading.classList.add("hide");
     answers.classList.remove("hide");
     questionNumber = 0;
+    currentQuestion;
     quizContainer.classList.remove("hide");
     score.innerHTML = "";
     const question = quizQuestions[questionNumber];
@@ -81,31 +82,31 @@ function startQuiz(event) {
         const choice = choices[index];
 
         const button = document.createElement('button');
-        button.textContent = choices;
-        button.setAttribute('data-isAnswer', choices.answer);
+        button.textContent = choices[index]
         button.addEventListener('click', checkAnswer)
         answerContainer.append(button);
     }
 
-    questionTitle.textContent = question.question;
+    questionTitle.textContent = question.title;
 }
 
 
 
-function checkAnswer(clickedAnswer) {
+function checkAnswer(clickedChoice) {
 
-    const isAnswer = clickedAnswer.target.getAttribute('data-isAnswer') === 'true';
-
-    if (isAnswer) {
+    if (!currentQuestion) {
+        return;
+    }
+    if (currentQuestion.answer === choices) {
         correctText.classList.remove("hide");
-        score++;
+        score = score + 5;
     }
     else {
         wrongText.classList.remove("hide");
         sec -= 10;
     }
 
-    questionNumber++;
+    currentQuestion++;
 
     if (questionNumber === quizQuestions.length) {
         finishQuiz();
@@ -119,8 +120,9 @@ function checkAnswer(clickedAnswer) {
 
 
 function nextQuestion() {
-    question = quizQuestions[questionNumber];
+   currentQuestion = quizQuestions[questionNumber];
     
+   
     
 
 
