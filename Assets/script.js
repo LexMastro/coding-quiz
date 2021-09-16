@@ -193,22 +193,19 @@ submitButton.addEventListener("click", function (event) {
     localStorage.setItem("initials", JSON.stringify(existingInitials));
     renderMessage(scoreObject);
 
-    let highScoresList = JSON.parse(localStorage.getItem("highscores"))
-    // var finalScore = localStorage.getItem("finalScore")
-    for (let i = 0; i < highScoresList.length; i++) {
-        let paragraph = document.createElement("p");
-        paragraph.textContent = highScoresList[i].initials + "         " + highScoresList[i].finalScore;
-        document.getElementById("highscores").append(paragraph);
-}
-
-
     highScoresList.push(scoreObject);
   
     //3. window.location.href = "highscores.html";
     localStorage.setItem("highScoresList", JSON.stringify(highScoresList));
     window.location.href = "highscores.html";
 
+
 });
+
+
+    
+
+
 
 function renderMessage(scoreObject) {
     
