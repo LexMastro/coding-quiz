@@ -7,10 +7,8 @@ const quizContainer = document.getElementById("quizContainer");
 let answerContainer = document.getElementById("answers");
 let questionTitle = document.getElementById('question');
 let scoreArea = document.getElementById("scores");
-
-
-var submitButton = document.getElementById("submitScore");
-var showScores = document.getElementById("showScoresBtn");
+let submitButton = document.getElementById("submitScore");
+let showScores = document.getElementById("showScoresBtn");
 
 
 
@@ -69,6 +67,7 @@ let sec = 60;
 
 
 
+
 startButton.addEventListener("click", startQuiz);
 
 function startQuiz() {
@@ -87,8 +86,6 @@ function startQuiz() {
 
 }
 
-
-
 function checkAnswer(event) {
     // grab the correct ans    
     const currentQuestion = quizQuestions[questionNumber];
@@ -99,11 +96,18 @@ function checkAnswer(event) {
     if (clickedChoice === answer) {
         correctText.classList.remove("hide");
         sec += 5;
+        score += 10;
+        
     }
     else {
         wrongText.classList.remove("hide");
         sec -= 10;
+        score -= 2;
     }
+
+    if(score < 0) {
+        score = 0;
+        }
 
     questionNumber++;
 
@@ -127,6 +131,7 @@ function finishQuiz() {
     scoreArea.classList.remove("hide");
     // Hide quiz container
     quizContainer.classList.add("hide");
+
 }
 
 
@@ -156,7 +161,7 @@ function quizTimer() {
     let time = setInterval(function () {
         document.getElementById('timer').innerHTML = "Time: " + sec + " sec remaining";
         sec--;
-        if (sec == -1) {
+        if (sec < 0) {
             clearInterval(time);
             alert("Time is up!");
             finishQuiz();
@@ -188,6 +193,21 @@ submitButton.addEventListener("click", function (event) {
     localStorage.setItem("initials", JSON.stringify(existingInitials));
     renderMessage(scoreObject);
 
+    let highScoresList = JSON.parse(localStorage.getItem("highscores"))
+    // var finalScore = localStorage.getItem("finalScore")
+    for (let i = 0; i < highScoresList.length; i++) {
+        let paragraph = document.createElement("p");
+        paragraph.textContent = highScoresList[i].initials + "         " + highScoresList[i].finalScore;
+        document.getElementById("highscores").append(paragraph);
+}
+
+
+    highScoresList.push(scoreObject);
+  
+    //3. window.location.href = "highscores.html";
+    localStorage.setItem("highScoresList", JSON.stringify(highScoresList));
+    window.location.href = "highscores.html";
+
 });
 
 function renderMessage(scoreObject) {
@@ -196,6 +216,9 @@ function renderMessage(scoreObject) {
         document.getElementById("user-highscore").textContent = scoreObject.initial +
             " scored " + scoreObject.highScore
     }
+
 }
 
-console.log(renderMessage);
+
+
+
