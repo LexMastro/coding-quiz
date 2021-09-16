@@ -9,44 +9,48 @@ let questionTitle = document.getElementById('question');
 let scoreArea = document.getElementById("scores");
 
 
+var submitButton = document.getElementById("submitScore");
+var showScores = document.getElementById("showScoresBtn");
+
+
 
 highScores = JSON.parse(localStorage.getItem("highscores")) || [];
 
 var quizQuestions = [
     {
-        title:  "1. How do you create a function in JavaScript?",
+        title: "1. How do you create a function in JavaScript?",
         choices: ["A. function = myFunction()", "B. function myFunction()", "C. function:myFunction()", "D. function, myFunction()"],
-        answer: 1
+        answer: "B. function myFunction()"
     },
 
     {
-        title:  "2. Which is the correct way to write an IF statement in JavaScript?",
-        choices: ["A. if (i == 5)",  "B. if i == 5 then", "C. if i = 5 then", "if i - 5 then"],
+        title: "2. Which is the correct way to write an IF statement in JavaScript?",
+        choices: ["A. if (i == 5)", "B. if i == 5 then", "C. if i = 5 then", "if i - 5 then"],
         answer: "A. if (i == 5)"
     },
 
     {
-        title:  "3. How do you add a comment in a JavaScript?",
-        choices: [ "A. <!-- This is a comment-->", "B. //This is a comment",  "C. 'This is a comment'", "D. **This is a comment**"],
+        title: "3. How do you add a comment in a JavaScript?",
+        choices: ["A. <!-- This is a comment-->", "B. //This is a comment", "C. 'This is a comment'", "D. **This is a comment**"],
         answer: "B. //This is a comment"
-    }, 
-    
+    },
+
     {
-        title:  "4. What is the correct way to write a JavaScript array?",
+        title: "4. What is the correct way to write a JavaScript array?",
         choices: ["A. var colors = (1:'red', 2:'green', 3:'blue'),", "B. var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue)", "C. var colors = 'red, 'green, 'blue'", "D. var = colors ['red', 'blue', 'green']"],
         answer: "D. var = colors ['red', 'blue', 'green']"
     },
 
     {
-        title:  "5. How do you declare a JavaScript variable?",
-        choices: ["A. v personName;", "B. var personName;",  "C. variable personName;"],
+        title: "5. How do you declare a JavaScript variable?",
+        choices: ["A. v personName;", "B. var personName;", "C. variable personName;"],
         answer: "B. var personName;"
 
-    }, 
-    
+    },
+
     {
-        title:  "6. Which operator is used to assign a value to a variable?",
-        choices: [ "A. *", "B. -", "C. X", "D. ="],
+        title: "6. Which operator is used to assign a value to a variable?",
+        choices: ["A. *", "B. -", "C. X", "D. ="],
         answer: "D. ="
 
     },
@@ -56,97 +60,142 @@ var quizQuestions = [
 let correctText = document.getElementById("correctText");
 let wrongText = document.getElementById("wrongText");
 let score = 0;
-let userInitals = "";
 let questionNumber = 0;
 let currentQuestion;
 let finalScore;
+const question = quizQuestions[questionNumber];
+const choices = question.choices;
+let sec = 60;
 
 
 
 startButton.addEventListener("click", startQuiz);
 
 function startQuiz() {
+    quizTimer();
+
 
     startButton.classList.add("hide");
     quizHeading.classList.add("hide");
     answers.classList.remove("hide");
     questionNumber = 0;
-    currentQuestion;
+
     quizContainer.classList.remove("hide");
     score.innerHTML = "";
-    const question = quizQuestions[questionNumber];
-    const choices = question.choices;
-    answerContainer.textContent = "";
 
-    for (let index = 0; index < choices.length; index++) {
-        const choice = choices[index];
+    renderQuestion(questionNumber);
 
-        const button = document.createElement('button');
-        button.textContent = choices[index]
-        button.addEventListener('click', checkAnswer)
-        answerContainer.append(button);
-    }
-
-    questionTitle.textContent = question.title;
 }
 
 
 
-function checkAnswer(clickedChoice) {
+function checkAnswer(event) {
+    // grab the correct ans    
+    const currentQuestion = quizQuestions[questionNumber];
+    const answer = currentQuestion.answer;
 
-    if (!currentQuestion) {
-        return;
-    }
-    if (currentQuestion.answer === choices) {
+    const clickedChoice = event.target.textContent;
+
+    if (clickedChoice === answer) {
         correctText.classList.remove("hide");
-        score = score + 5;
+        sec += 5;
     }
     else {
         wrongText.classList.remove("hide");
         sec -= 10;
     }
 
-    currentQuestion++;
+    questionNumber++;
 
     if (questionNumber === quizQuestions.length) {
         finishQuiz();
         return;
     }
     else {
-        nextQuestion();
+        setTimeout(function () {
+            correctText.classList.add("hide");
+            wrongText.classList.add("hide");
+            renderQuestion(questionNumber);
+        }, 1000)
+
     }
-    nextQuestion();
+
 };
 
-
-function nextQuestion() {
-   currentQuestion = quizQuestions[questionNumber];
-    
-   
-    
-
-
+function finishQuiz() {
+    // take user to submit initials section
+    scoreArea.classList.remove("hide");
+    // Hide quiz container
+    quizContainer.classList.add("hide");
 }
 
 
 
+function renderQuestion(index) {
+    const question = quizQuestions[index];
+    const choices = question.choices;
+    answerContainer.textContent = "";
 
-
-
-var sec = 100;
-var time = setInterval(quizTimer, 1000);
-startButton.addEventListener("click", quizTimer);
-function quizTimer() {
-    document.getElementById('timer').innerHTML = sec + " sec remaining";
-    sec--;
-    if (sec == -1) {
-        clearInterval(time);
-        alert("Time is up!");
+    for (let index = 0; index < choices.length; index++) {
+        const choice = choices[index];
+        const button = document.createElement('button');
+        button.textContent = choice
+        button.addEventListener('click', checkAnswer)
+        answerContainer.append(button);
     }
 
+    questionTitle.textContent = question.title;
+
 }
 
-quizTimer();
 
 
 
+function quizTimer() {
+
+    let time = setInterval(function () {
+        document.getElementById('timer').innerHTML = "Time: " + sec + " sec remaining";
+        sec--;
+        if (sec == -1) {
+            clearInterval(time);
+            alert("Time is up!");
+            finishQuiz();
+        }
+
+    }, 1000);
+
+}
+
+
+
+
+
+submitButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    // grab exisitng ones in the local storange
+    const existingInitials = JSON.parse(localStorage.getItem('initials')) || [];
+
+    // add the current user input to the exisitng ilist
+    const initial = document.getElementById('initials').value;
+    const scoreObject = {
+        initial: initial,
+        highScore: score
+    }
+    existingInitials.push(scoreObject)
+
+    // resave the whote list
+
+    localStorage.setItem("initials", JSON.stringify(existingInitials));
+    renderMessage(scoreObject);
+
+});
+
+function renderMessage(scoreObject) {
+    
+    if (scoreObject !== null) {
+        document.getElementById("user-highscore").textContent = scoreObject.initial +
+            " scored " + scoreObject.highScore
+    }
+}
+
+console.log(renderMessage);

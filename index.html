@@ -9,8 +9,8 @@
 	</head>
 	<body>
         <header>
-            <div id="highscores"><a href="#">View Highscores</a></div>
-            <div>Time: <span id="timer"></span></div>
+            <div id="highscores"><a href="highscores.html">View Highscores</a></div>
+            <div><span id="timer"></span></div>
         </header>
 		<main id="mainContainer">
             <h1>Javascript Quiz</h1>
@@ -23,10 +23,11 @@
                 <p id="wrongText" class="hide">Wrong!</p>
             </div>       
             <div id="scores" class="hide">
-                <span id="scoreDisplay"></span> 
+                <h1>User Score</h1>
                 <input type="text" name="initials" id="initials" />
                 <button id="submitScore" class="submit">Submit Score</button>
                 <button class="btn" id="showScoresBtn">See High Scores</button>
+                <p id="user-highscore"></p>
             </div>    
         </main>
 		<script src="./Assets/script.js"></script>
