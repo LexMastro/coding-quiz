@@ -16,17 +16,26 @@ h1 {
     text-align: center;
 }
 
+button a {
+    text-decoration: none;
+    color: #555;
+    line-height: 25px;
+}
 
 button {
     text-align: center;
     background-color: tan;
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 5px;
-    color: black;
+    cursor: pointer; 
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
     min-width: auto;
     display: flex;
     justify-content: space-between;
+}
+
+#question {
+    
 }
 
 .button {
