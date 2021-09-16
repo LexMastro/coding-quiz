@@ -14,6 +14,12 @@ header {
 
 h1 {
     text-align: center;
+    margin-bottom: 50px;
+    margin-top: 0;
+}
+
+#highscore-title {
+    margin-bottom: 50px;
 }
 
 button a {
@@ -32,14 +38,22 @@ button {
     min-width: auto;
     display: flex;
     justify-content: space-between;
+    font-size: 18px;
 }
 
 #question {
-    
+    font-family: sans-serif;
+    font-size: 22px;
+    margin-bottom: 30px;
+    margin-top: 0px;
+}
+
+#answers {
+    display: flex;
+    flex-direction: column;
 }
 
 .button {
-    
     width: 80px;
     height: 25px;
     text-align: center;

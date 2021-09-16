@@ -12,7 +12,7 @@ let showScores = document.getElementById("showScoresBtn");
 
 
 
-highScores = JSON.parse(localStorage.getItem("highscores")) || [];
+// highScores = JSON.parse(localStorage.getItem("highscores")) || [];
 
 var quizQuestions = [
     {
@@ -65,9 +65,6 @@ const question = quizQuestions[questionNumber];
 const choices = question.choices;
 let sec = 60;
 
-
-
-
 startButton.addEventListener("click", startQuiz);
 
 function startQuiz() {
@@ -97,7 +94,7 @@ function checkAnswer(event) {
         correctText.classList.remove("hide");
         sec += 5;
         score += 10;
-        
+
     }
     else {
         wrongText.classList.remove("hide");
@@ -105,9 +102,9 @@ function checkAnswer(event) {
         score -= 2;
     }
 
-    if(score < 0) {
+    if (score < 0) {
         score = 0;
-        }
+    }
 
     questionNumber++;
 
@@ -135,7 +132,6 @@ function finishQuiz() {
 }
 
 
-
 function renderQuestion(index) {
     const question = quizQuestions[index];
     const choices = question.choices;
@@ -153,9 +149,6 @@ function renderQuestion(index) {
 
 }
 
-
-
-
 function quizTimer() {
 
     let time = setInterval(function () {
@@ -171,16 +164,12 @@ function quizTimer() {
 
 }
 
-
-
-
-
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
     // grab exisitng ones in the local storange
     const existingInitials = JSON.parse(localStorage.getItem('initials')) || [];
 
-    // add the current user input to the exisitng ilist
+    // add the current user input to the exisitng list
     const initial = document.getElementById('initials').value;
     const scoreObject = {
         initial: initial,
@@ -188,32 +177,24 @@ submitButton.addEventListener("click", function (event) {
     }
     existingInitials.push(scoreObject)
 
-    // resave the whote list
-
+    // resave the whote lis
     localStorage.setItem("initials", JSON.stringify(existingInitials));
     renderMessage(scoreObject);
 
-    highScoresList.push(scoreObject);
-  
-    //3. window.location.href = "highscores.html";
-    localStorage.setItem("highScoresList", JSON.stringify(highScoresList));
-    window.location.href = "highscores.html";
+    setTimeout(function () {
 
+        window.location.href = "highscores.html";
+    }, 2000)
 
 });
 
 
-    
-
-
-
 function renderMessage(scoreObject) {
-    
+
     if (scoreObject !== null) {
         document.getElementById("user-highscore").textContent = scoreObject.initial +
             " scored " + scoreObject.highScore
     }
-
 }
 
 
