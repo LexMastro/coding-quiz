@@ -16,6 +16,19 @@ h1 {
     text-align: center;
 }
 
+
+button {
+    text-align: center;
+    background-color: tan;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px;
+    color: black;
+    min-width: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
 .button {
     
     width: 80px;
@@ -45,6 +58,12 @@ h1 {
     display: none;
 }
 
+#scores {
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px;
+}
+
 
 #mainContainer 
 {
@@ -63,7 +82,7 @@ ul {
     width: 500px;
 }
 
-ul l{
+ul li {
     background: #3fb5a1;
     width: 200px;
     margin: 10px;
@@ -72,15 +91,3 @@ ul l{
 }
 
 
-input[type="radio"]{
-    cursor: pointer;
-    display: none;
-}
-/* 
-p {
-    display: none;
-} */
-
-#answer0, #answer1, #answer2, #answer3 {
-    display: none;
-}
