@@ -1,44 +1,41 @@
-const existingInitials = JSON.parse(localStorage.getItem('initials')) || [];
+let scoreBoard = document.querySelector("ol");
+let clearScore = document.getElementById("clear-button");
+var storedScores = JSON.parse(localStorage.getItem("initials"));
 
-const initial = document.getElementById('initials').value;
-const scoreObject = {
-    initial: initial,
-    highScore: score
-}
+//Renders scores in a list as <li> elements
 
-localStorage.setItem("initials", JSON.stringify(existingInitials));
-
-const scores = document.getElementById('content')
-const ol = document.querySelector('ol')
-const button = document.getElementById('clear-button')
-let listArray = localStorage.getItem('initials')
-
-
-localStorage.setItem('items', JSON.stringify(listArray))
-const data = JSON.parse(localStorage.getItem('items'))
-
-const liMaker = (text) => {
-  const li = document.createElement('li')
-  li.textContent = text
-  ol.appendChild(li)
-}
-
-submitButton.addEventListener('submit', function (e) {
-  e.preventDefault()
-
-  listArray.push(input.value)
-  localStorage.setItem('items', JSON.stringify(listArray))
-  liMaker(input.value)
-  input.value = ''
-})
-
-data.forEach((item) => {
-  liMaker(item)
-})
-
-button.addEventListener('click', function () {
-  localStorage.clear()
-  while (ol.firstChild) {
-    ol.removeChild(ul.firstChild)
+function renderScores() {
+  storedScores.sort(compare);
+  storedScores.reverse();
+  for (var i = 0; i < storedScores.length; i++) {
+    var quizValues =
+    storedScores[i]["initials"] + " - " + storedScores[i]["score"];
+    console.log(quizValues);
+    scoreBoard.innerHTML += `<li>${quizValues}</li>`;
   }
-})
+}
+
+// Arrange scores in order from highest to lowest
+
+function compare(a, b) {
+  if (a.score < b.score) {
+    return -1;
+  }
+  if (a.score > b.score) {
+    return 1;
+  }
+  return 0;
+}
+
+// Render scoreBoard only if scores are available
+
+if (storedScores !== null) {
+  renderScores();
+}
+
+// Clear scores from leaderboard
+
+clearScore.addEventListener("click", function () {
+  localStorage.removeItem("initials");
+  leaderBoard.innerHTML = `<li>No scores</li>`;
+});
