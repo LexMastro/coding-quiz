@@ -9,7 +9,7 @@ function renderScores() {
   storedScores.reverse();
   for (var i = 0; i < storedScores.length; i++) {
     var quizValues =
-    storedScores[i]["initials"] + " - " + storedScores[i]["score"];
+    storedScores[i].initial + " - " + storedScores[i].highScore;
     console.log(quizValues);
     scoreBoard.innerHTML += `<li>${quizValues}</li>`;
   }
@@ -37,5 +37,5 @@ if (storedScores !== null) {
 
 clearScore.addEventListener("click", function () {
   localStorage.removeItem("initials");
-  leaderBoard.innerHTML = `<li>No scores</li>`;
+  scoreBoard.innerHTML = `<li>No scores</li>`;
 });
